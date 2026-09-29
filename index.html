@@ -1,10 +1,450 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Test E-commerce</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopBase | Votre Boutique en Ligne</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2563eb;
+        }
+        
+        .nav-actions {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .cart-btn {
+            background: #2563eb;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #2563eb;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        
+        /* Products */
+        .products {
+            padding: 4rem 0;
+            background: #f8fafc;
+        }
+        
+        .products h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #1e293b;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 200px;
+            background: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+        
+        .add-to-cart {
+            width: 100%;
+            background: #2563eb;
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            background: #1e40af;
+        }
+        
+        /* Cart Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .cart-total {
+            text-align: right;
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            color: #2563eb;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            background: #10b981;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        
+        .checkout-btn:hover {
+            background: #059669;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            color: #666;
+            padding: 2rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: #1e293b;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Site E-commerce - Test</h1>
-    <p>Si tu vois ça, ça marche !</p>
+    <header>
+        <nav class="container">
+            <div class="logo">ShopBase</div>
+            <div class="nav-actions">
+                <a href="#produits" class="nav-link">Produits</a>
+                <button class="cart-btn" onclick="openCart()">
+                    🛒 Panier (<span id="cart-count">0</span>)
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Votre boutique en ligne</h1>
+            <p>Découvrez notre sélection de produits premium</p>
+            <a href="#produits" class="btn">Voir les produits</a>
+        </div>
+    </section>
+
+    <section id="produits" class="products">
+        <div class="container">
+            <h2>Nos Produits</h2>
+            <div class="products-grid" id="products-grid">
+                <!-- Produits générés par JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCart()">&times;</span>
+            <h2>🛒 Votre Panier</h2>
+            <div id="cart-items">
+                <p class="empty-cart">Votre panier est vide</p>
+            </div>
+            <div class="cart-total">
+                Total: <span id="cart-total">0€</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">
+                Passer la commande
+            </button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ShopBase. Template e-commerce par Hicham.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Données des produits
+        const products = [
+            { id: 1, name: 'Casque Audio Premium', price: 199, emoji: '🎧' },
+            { id: 2, name: 'Montre Connectée', price: 299, emoji: '⌚' },
+            { id: 3, name: 'Enceinte Bluetooth', price: 149, emoji: '🔊' },
+            { id: 4, name: 'Tablette Graphique', price: 399, emoji: '📱' },
+            { id: 5, name: 'Clavier Mécanique', price: 129, emoji: '⌨️' },
+            { id: 6, name: 'Souris Gaming', price: 89, emoji: '🖱️' }
+        ];
+
+        // Panier
+        let cart = [];
+
+        // Afficher les produits
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <div class="product-image">${product.emoji}</div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <p class="product-price">${product.price}€</p>
+                        <button class="add-to-cart" onclick="addToCart(${product.id})">
+                            Ajouter au panier
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Ajouter au panier
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            cart.push(product);
+            updateCartCount();
+            showNotification(`${product.name} ajouté au panier !`);
+        }
+
+        // Mettre à jour le compteur
+        function updateCartCount() {
+            document.getElementById('cart-count').textContent = cart.length;
+        }
+
+        // Ouvrir le panier
+        function openCart() {
+            renderCart();
+            document.getElementById('cart-modal').classList.add('active');
+        }
+
+        // Fermer le panier
+        function closeCart() {
+            document.getElementById('cart-modal').classList.remove('active');
+        }
+
+        // Afficher le panier
+        function renderCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="empty-cart">Votre panier est vide</p>';
+                cartTotal.textContent = '0€';
+                return;
+            }
+            
+            cartItems.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <span>${item.emoji} ${item.name}</span>
+                    <span>${item.price}€</span>
+                </div>
+            `).join('');
+            
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            cartTotal.textContent = `${total}€`;
+        }
+
+        // Passer commande
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Votre panier est vide !');
+                return;
+            }
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            alert(`Commande passée ! Total: ${total}€\n\n(Dans un vrai site, redirection vers paiement Stripe)`);
+            cart = [];
+            updateCartCount();
+            closeCart();
+        }
+
+        // Notification
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #10b981;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            `;
+            notif.textContent = message;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+
+        // Fermer le modal en cliquant à l'extérieur
+        document.getElementById('cart-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCart();
+            }
+        });
+
+        // Initialisation
+        renderProducts();
+    </script>
 </body>
 </html>
